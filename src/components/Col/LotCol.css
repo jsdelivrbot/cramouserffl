@@ -1,0 +1,39 @@
+.fade-enter {
+  opacity: 0.01;
+  transform: translate3d(0, -40px, 0);
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: 1000ms ease-in-out;
+  transition-property: opacity, transform;
+  transform: translate3d(0, 0, 0);
+}
+
+.fade-exit {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.fade-exit.fade-exit-active {
+  opacity: 0.01;
+  transition: 800ms ease-in-out;
+  transition-property: opacity, transform;
+  transform: translate3d(0, -40px, 0);
+}
+
+
+/**--- example styles ---**/
+.container {
+height:100%;
+width:100%;
+align-items: center;
+display: flex;
+flex-direction: column-reverse;
+}
+
+.todo-list > * {
+  margin: 5px 0;
+  padding: 5px 0;
+  border-bottom:  1px solid #ccc;
+}
