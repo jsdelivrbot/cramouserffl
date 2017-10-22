@@ -27,10 +27,12 @@ class LotCol extends React.Component<IProps,any> {
     const onClick = this.props && this.props.selectLot ? this.props.selectLot : () => {}
     
     let partCols = []
-    for(let f of floors) {
-      if(typeof f.floor === 'undefined')
+    for(let i = floors.length -1; i >= 0 ; i--) {
+      let f = floors[i]
+      if(typeof f.floor === 'undefined' || f.floor === null)
         continue
       let partColBg = ''
+      let partColColor = 'white'
       switch(f.type) {
         case Types.Flexi:
           partColBg = '#17A086'
@@ -40,6 +42,7 @@ class LotCol extends React.Component<IProps,any> {
           break
         case Types.staffWagon:
           partColBg = '#F1C50E'
+          partColColor = '#000000'
           break
         case Types.toilet:
           partColBg = '#C1392D'
@@ -49,6 +52,7 @@ class LotCol extends React.Component<IProps,any> {
           break
         case Types.container:
           partColBg = '#e67e22'
+          partColColor = '#000000'
           break;
         case Types.other:
           partColBg = '#3F51B5'
@@ -56,7 +60,8 @@ class LotCol extends React.Component<IProps,any> {
         default:
           partColBg = '#34495e'
       }
-      partCols.push(<Fade key={f.floor}><PartCol key={f.floor} style={{background: partColBg, fontSize: 10, textAlign: 'center', color: 'white'}}>{f.individual}</PartCol></Fade>)
+      console.log(f)
+      partCols.push(<Fade key={f.floor}><PartCol key={f.floor} style={{background: partColBg, fontSize: 10, textAlign: 'center', color: partColColor}}>{f.individual}</PartCol></Fade>)
     }
     return (
       <Col onClick={() => {onClick(this.props && this.props.lot && this.props.lot.id ? this.props.lot.id : null)}} style={{background: bg, alignItems: 'center'}}>

@@ -22,7 +22,10 @@ class LotDialog extends React.Component<any, any> {
       
   }
   onDelete(floor: number) {
-    this.state.floors[floor] = {}
+    delete this.state.floors[floor].floor
+    delete this.state.floors[floor].individual
+    delete this.state.floors[floor].type
+    delete this.state.floors[floor].status
     this.setState({floors: this.state.floors });
   }
   componentDidMount(){
@@ -40,9 +43,9 @@ class LotDialog extends React.Component<any, any> {
     let individual = ""
     let status = Statuses.NONE
     let type = Types.empty
-    individual = this.state.floors[floor].individual || ""
-    status = this.state.floors[floor].status || Statuses.NONE
-    type = this.state.floors[floor].type|| Types.empty
+    individual = (this.state.floors[floor] || {}).individual || ""
+    status = (this.state.floors[floor] || {}).status || Statuses.NONE
+    type = (this.state.floors[floor] || {}).type || Types.empty
     
     return (
       <div style={{display: 'flex', flexDirection: 'column', marginBottom: 0}}>
@@ -107,11 +110,11 @@ class LotDialog extends React.Component<any, any> {
     const cardStyle = mobile ? 
     {width: '100vw', height: '100vh'} :
     {}
-    for(let i = 0; i < 3; i++) {
+    for(let i = 2; i >= 0; i--) {
       floors.push(
       <div key={i}>
         <Typography type="headline" component="h3">
-          Våning {i+1} <IconButton style={{margin: 0}} aria-label="Delete" onClick={() => this.onDelete(i)}>
+          Våning {3-i} <IconButton style={{margin: 0}} aria-label="Delete" onClick={() => this.onDelete(i)}>
          <DeleteIcon />
         </IconButton>
         </Typography>
