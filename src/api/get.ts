@@ -30,13 +30,13 @@ export interface ILot {
 }
 
 export const getLots = async () => {
-  return {lots: await (await fetch('http://85.229.108.225:8080/api/lots')).json()}
+  return {lots: await (await fetch('http://85.229.108.225:8081/api/lots')).json()}
 }
 interface IUpdateLog {
   lot: ILot
 }
 export const updateLot = async ({lot}: IUpdateLog) => {
-  let response = await (await fetch('http://85.229.108.225:8080/api/lots', {
+  let response = await (await fetch('http://85.229.108.225:8081/api/lots', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
