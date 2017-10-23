@@ -11,7 +11,7 @@ import * as React from 'react';
 import './App.css';
 import Transition from 'react-transition-group/Transition';
 import * as io from 'socket.io-client'
-let socket = io('http://85.229.108.225:8081')
+let socket = io('https://mighty-beyond-46233.herokuapp.com', {secure: true})
 
 const transitionStyles = {
   entering: { opacity: 0.1, transform: 'translate3d(-100vw,0,0)' },
