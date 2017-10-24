@@ -11,7 +11,7 @@ import * as React from 'react';
 import './App.css';
 import Transition from 'react-transition-group/Transition';
 import * as io from 'socket.io-client';
-let socket = io(`${serverAddress}/api/lots`)
+let socket = io(`${serverAddress}`)
 
 const transitionStyles = {
   entering: { opacity: 0.1, transform: 'translate3d(-100vw,0,0)' },
@@ -103,12 +103,14 @@ class App extends React.Component<any,any> {
     }
     return (
       <div style={{ paddingTop: 64, overflow: 'auto'}}>
-        <AppBar />
+        {!this.state.dialog && <AppBar />}
         <FadeDialog in={!!this.state.dialog} selectedLot={selectedLot} onSave={(lot: ILot)=>{this.onSave(lot);this.closeDialog()}} onClose={()=>this.closeDialog()}/>  
-        <Row>
-          {numberCols}
-        </Row>
-        {rows}
+        <div style={{ transform: 'translate3d(0,0,0)', filter: this.state.dialog ? 'blur(5px)' : ''}}>
+          <Row>
+            {numberCols}
+          </Row>
+          {rows}
+        </div>
       </div>
     );
   }

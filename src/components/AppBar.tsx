@@ -8,7 +8,7 @@ import Typography from 'material-ui/Typography';
 function AppBar(props: any) {
   
   return (
-      <MaterialAppBar position="fixed" >
+      <MaterialAppBar position="fixed" style={{background: 'rgb(53, 53, 60)'}} >
         <Toolbar>
           <Typography type="title" color="inherit">
             Cramo - Bodar

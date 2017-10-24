@@ -1,7 +1,7 @@
 import { Statuses, Types } from '../../api/get';
 import * as React from 'react';
 import './LotDialog.css';
-import Card, { CardActions, CardContent } from 'material-ui/Card';
+import Card, { CardContent } from 'material-ui/Card';
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
 import { FormControl } from 'material-ui/Form';
@@ -28,13 +28,16 @@ class LotDialog extends React.Component<any, any> {
     delete this.state.floors[floor].status
     this.setState({floors: this.state.floors });
   }
-  componentDidMount(){
+  componentWillMount(){
     let lot = {...this.props.lot}
     lot.floors = lot.floors.slice()
     for(let i = 0; i < lot.floors.length; i++) {
         lot.floors[i] = {...lot.floors[i]}
     }
-    this.setState({...lot})
+    this.setState({...lot, selectedFloor: 0})
+  }
+  selectFloor(floor: number) {
+    this.setState({selectedFloor: floor})
   }
   getFloorContent(floor: number) {
     if(!this.state || !this.state) {
@@ -108,37 +111,72 @@ class LotDialog extends React.Component<any, any> {
     let mobile = window.innerWidth < 1024
     const style = this.props.style || {}
     const cardStyle = mobile ? 
-    {width: '100vw', height: '100vh'} :
-    {}
-    for(let i = 2; i >= 0; i--) {
+    {} :
+    {width: 350}
+    let selectedFloor = this.state.selectedFloor
       floors.push(
-      <div key={i}>
+      <div>
         <Typography type="headline" component="h3">
-          Våning {3-i} <IconButton style={{margin: 0}} aria-label="Delete" onClick={() => this.onDelete(i)}>
+          Våning {selectedFloor+1} <IconButton style={{margin: 0}} aria-label="Delete" onClick={() => this.onDelete(2-selectedFloor)}>
          <DeleteIcon />
         </IconButton>
         </Typography>
-          {this.getFloorContent(i)}
+          {this.getFloorContent(2-selectedFloor)}
         </div>)
-    }
+    
+    let floorSelectors = []
+    
+    for(let f = 0; f < (((this.state || {}).floors) || []).length; f++) {
+      console.log(f)
+      //let floor = this.state.floors[f]
+      floorSelectors.push(
+      <Card 
+        key={f} 
+        onClick={() => this.selectFloor(f)}
+        style={{
+          width: '30%',
+          textAlign: 'center',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: f == this.state.selectedFloor ? 'white' : '#394253',
+          paddingTop: 10,
+          paddingBottom: 10
+        }}>
+        <span style={{fontWeight: 800, fontSize: 25, color: f != this.state.selectedFloor ? 'rgba(255,255,255,0.7)' : '#504C9C'}}>
+          {f+1}
+        </span>
+      </Card>
+      )
+   }
+  
     return (
-        <Card style={{ zIndex: 10000, overflowY: 'scroll', position: 'fixed', top: '0px', right:'0px', ...cardStyle, ...style}}>
-        <CardContent>
-          {floors}
-        </CardContent>
-        <CardActions>
-          <Button raised color="default" onClick={() => {
-            console.log(this.state)
-            this.props.onSave(this.state)
-          }}
-            >
-            Spara
-          </Button>
-          <Button raised color="primary" onClick={this.props.onClose}>
-            Stäng
-          </Button>
-        </CardActions>
-        </Card>
+      <div  style={{ zIndex: 1300, overflowY: 'auto', position: 'fixed',  top: '0px', left:'0px', ...cardStyle, ...style}}>
+        <div style={{display: 'flex', flexDirection: 'column', width:'100%'}}>
+        <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: 10}}>
+            {floorSelectors}
+          </div>
+          <Card style={{margin: 10, marginBottom: 0, marginTop: 0}}>
+            <CardContent>
+              {floors}
+            </CardContent>
+          </Card>
+          <Card style={{margin: 10, marginBottom: 0}}>
+            <CardContent style={{textAlign: 'center'}}>
+              <Button raised color="default" onClick={() => {
+                  console.log(this.state)
+                  this.props.onSave(this.state)
+                }}
+              >
+                Spara
+              </Button>
+              <Button raised color="primary" onClick={this.props.onClose} style={{marginLeft: 10}}>
+                Stäng
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     )
   }
 }
