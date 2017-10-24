@@ -5,13 +5,13 @@ import CornerCol from './components/Col/CornerCol';
 import LetterCol from './components/Col/LetterCol';
 import { getLots, ILot, updateLot } from './api/get';
 import NumberCol from './components/Col/NumberCol';
-import { config } from './config'
+import { config, serverAddress } from './config';
 import Row from './components/Row/Row'
 import * as React from 'react';
 import './App.css';
 import Transition from 'react-transition-group/Transition';
-import * as io from 'socket.io-client'
-let socket = io('https://mighty-beyond-46233.herokuapp.com', {secure: true})
+import * as io from 'socket.io-client';
+let socket = io(`${serverAddress}/api/lots`)
 
 const transitionStyles = {
   entering: { opacity: 0.1, transform: 'translate3d(-100vw,0,0)' },
@@ -102,14 +102,13 @@ class App extends React.Component<any,any> {
       rows.push(<Row key={r}>{cols}</Row>)
     }
     return (
-      <div style={this.state.dialog ? {position: 'fixed', display:"inline-block", paddingTop: 64} : { paddingTop: 64}}>
-      <AppBar />
+      <div style={{ paddingTop: 64, overflow: 'auto'}}>
+        <AppBar />
         <FadeDialog in={!!this.state.dialog} selectedLot={selectedLot} onSave={(lot: ILot)=>{this.onSave(lot);this.closeDialog()}} onClose={()=>this.closeDialog()}/>  
         <Row>
           {numberCols}
         </Row>
         {rows}
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/6kql6qiWO40?autoplay=1;rel=0"></iframe>
       </div>
     );
   }

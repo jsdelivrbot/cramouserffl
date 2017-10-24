@@ -122,23 +122,23 @@ class LotDialog extends React.Component<any, any> {
         </div>)
     }
     return (
-      <Card style={{position: 'fixed', top:0, zIndex: 10000, overflowY: 'scroll', ...cardStyle, ...style}}>
-      <CardContent>
-        {floors}
-      </CardContent>
-      <CardActions>
-        <Button raised color="default" onClick={() => {
-          console.log(this.state)
-          this.props.onSave(this.state)
-        }}
-          >
-          Spara
-        </Button>
-        <Button raised color="primary" onClick={this.props.onClose}>
-          Stäng
-        </Button>
-      </CardActions>
-      </Card>
+        <Card style={{ zIndex: 10000, overflowY: 'scroll', position: 'fixed', top: '0px', right:'0px', ...cardStyle, ...style}}>
+        <CardContent>
+          {floors}
+        </CardContent>
+        <CardActions>
+          <Button raised color="default" onClick={() => {
+            console.log(this.state)
+            this.props.onSave(this.state)
+          }}
+            >
+            Spara
+          </Button>
+          <Button raised color="primary" onClick={this.props.onClose}>
+            Stäng
+          </Button>
+        </CardActions>
+        </Card>
     )
   }
 }

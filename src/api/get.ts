@@ -1,5 +1,6 @@
 // Status = ava, nco, rnt, rep
 // type = Flexi, Personalvagn, toilet, container, bod
+import { serverAddress } from '../config';
 export enum Statuses {
   NONE = 0,
   NCO = 1,
@@ -30,13 +31,13 @@ export interface ILot {
 }
 
 export const getLots = async () => {
-  return {lots: await (await fetch('https://mighty-beyond-46233.herokuapp.com/api/lots')).json()}
+  return {lots: await (await fetch(`${serverAddress}/api/lots`)).json()}
 }
 interface IUpdateLog {
   lot: ILot
 }
 export const updateLot = async ({lot}: IUpdateLog) => {
-  let response = await (await fetch('https://mighty-beyond-46233.herokuapp.com/api/lots', {
+  let response = await (await fetch(`${serverAddress}/api/lots`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
